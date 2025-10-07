@@ -68,7 +68,7 @@ public class SentimentAnalysis {
                 .mode("overwrite")
                 .save();
 
-        // 7️. Aggregate trends per category and brand
+        // 7️. Aggregate trends per category and brand combinations
         Dataset<Row> trendSummary = spark.sql(
                 "SELECT " +
                         "primaryCategories AS category, " +

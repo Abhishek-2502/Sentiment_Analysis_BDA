@@ -52,7 +52,7 @@ object SentimentAnalysis {
       .mode("overwrite")
       .save()
 
-    // 7️. Aggregate trends per category and brand
+    // 7️. Aggregate trends per category and brand combinations
     predictions.createOrReplaceTempView("sentiment_results")
 
     val trendSummary = spark.sql(

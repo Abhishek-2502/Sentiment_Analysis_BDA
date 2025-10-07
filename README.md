@@ -280,10 +280,9 @@ ORDER BY recommend_percentage DESC;
 ## Explore in MongoDB (Storage for dashboard/trend visualization)
 ### 1. Connect to mongo running in container:
 ```
-docker exec -it container_id bash
+docker exec -it mongodb mongo
 ```
 ```
-mongo
 use sentimentdb
 ```
 ### 2. Check Top 5 predictions stored for dashboards:
@@ -297,6 +296,10 @@ db.results.find().limit(5).pretty()
 db.results.count()
 ```
 ![alt_text](images/query7.png)
+
+```
+db.trend_summary.count()
+```
 
 ### 4. Check Top 5 Reviews_Rating:
 ```
