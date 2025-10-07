@@ -270,7 +270,7 @@ ORDER BY recommend_percentage DESC;
 ![alt_text](images/query5.png)
 
 ## Explore in MongoDB (Storage for dashboard/trend visualization)
-### Connect to mongo running in container:
+### 1. Connect to mongo running in container:
 ```
 docker exec -it container_id bash
 ```
@@ -289,6 +289,9 @@ db.results.find().limit(5).pretty()
  - Connect MongoDB or Hive to Power BI / Tableau.
 
  - Track market trends, sentiment, and customer recommendation patterns.
+
+## License
+This project is licensed under the **MIT License** – see the [LICENSE](./LICENSE) file for details.
 
 ## Author
 
