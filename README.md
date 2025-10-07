@@ -258,7 +258,6 @@ desc trend_summary;
 ```
 SELECT * FROM sentimentdb.trend_summary LIMIT 10;
 ```
-
 ![alt_text](images/query3.png)
 
 ### 3. Identify Best Categories:
@@ -268,7 +267,6 @@ FROM sentimentdb.trend_summary
 GROUP BY category
 ORDER BY avg_positive DESC;
 ```
-
 ![alt_text](images/query4.png)
 
 ### 4. Predict Consumer Behavior:
@@ -288,11 +286,29 @@ docker exec -it container_id bash
 mongo
 use sentimentdb
 ```
-### 2. Check predictions stored for dashboards:
+### 2. Check Top 5 predictions stored for dashboards:
 ```
 db.results.find().limit(5).pretty()
 ```
+![alt_text](images/query6.png)
 
+### 3. Get number of rows:
+```
+db.results.count()
+```
+![alt_text](images/query7.png)
+
+### 4. Check Top 5 Reviews_Rating:
+```
+db.results.find().sort({ reviews_rating: -1 }).limit(5).pretty()
+```
+![alt_text](images/query8.png)
+
+### 5. Check Bottom 5 Reviews_Rating:
+```
+db.results.find().sort({ reviews_rating: 1 }).limit(5).pretty()
+```
+![alt_text](images/query9.png)
 
 ## Visualization
 
