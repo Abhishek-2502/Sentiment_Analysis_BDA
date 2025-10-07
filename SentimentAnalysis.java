@@ -1,8 +1,6 @@
 import org.apache.spark.sql.SparkSession;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-import org.apache.spark.sql.functions;
-
 import org.apache.spark.ml.Pipeline;
 import org.apache.spark.ml.PipelineModel;
 import org.apache.spark.ml.feature.Tokenizer;
@@ -15,12 +13,12 @@ import static org.apache.spark.sql.functions.*;
 public class SentimentAnalysis {
     public static void main(String[] args) {
 
-         // 0. Initialize Spark Session
+        // 0️. Initialize Spark Session
         SparkSession spark = SparkSession.builder()
                 .appName("SentimentAnalysis")
                 .config("spark.sql.warehouse.dir", "/user/hive/warehouse")
                 .config("hive.metastore.uris", "thrift://localhost:9083")
-                .config("spark.mongodb.output.uri", "mongodb://127.0.0.1:27017/sentimentdb.results")
+                .config("spark.mongodb.output.uri", "mongodb://127.0.0.1:27017/sentimentdb")
                 .enableHiveSupport()
                 .getOrCreate();
 
@@ -63,9 +61,10 @@ public class SentimentAnalysis {
 
         predictions.createOrReplaceTempView("sentiment_results");
 
-        // 6️. Write detailed results to MongoDB
+        // 6️. Write detailed results to MongoDB (results collection)
         predictions.write()
                 .format("mongo")
+                .option("uri", "mongodb://127.0.0.1:27017/sentimentdb.results")
                 .mode("overwrite")
                 .save();
 
@@ -84,11 +83,19 @@ public class SentimentAnalysis {
                         "ORDER BY positive_percentage DESC"
         );
 
+        // 8️. Write trend summary to MongoDB (trend_summary collection)
+        trendSummary.write()
+                .format("mongo")
+                .option("uri", "mongodb://127.0.0.1:27017/sentimentdb.trend_summary")
+                .mode("overwrite")
+                .save();
+
+        // 9️. Optionally save trend summary also in Hive (optional)
         trendSummary.write()
                 .mode("overwrite")
                 .saveAsTable("sentimentdb.trend_summary");
 
-        // 8. Stop Spark session
+        //  10. Stop Spark session
         spark.stop();
     }
 }

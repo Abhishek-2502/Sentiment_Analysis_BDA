@@ -310,6 +310,29 @@ db.results.find().sort({ reviews_rating: 1 }).limit(5).pretty()
 ```
 ![alt_text](images/query9.png)
 
+### 6. Export Results and Trend Summary:
+```
+docker exec -it mongodb mongoexport \
+  --db sentimentdb \
+  --collection results \
+  --type=csv \
+  --out /tmp/results.csv \
+  --fields brand,primaryCategories,reviews_rating,prediction,reviews_doRecommend
+```
+```
+docker exec -it mongodb mongoexport \
+  --db sentimentdb \
+  --collection trend_summary \
+  --type=csv \
+  --out /tmp/trend_summary.csv \
+  --fields category,brand,total_reviews,positive_reviews,negative_reviews,positive_percentage,recommend_percentage
+```
+
+```
+docker cp mongodb:/tmp/results.csv ~/Desktop/SentimentAnalysis/results.csv
+docker cp mongodb:/tmp/trend_summary.csv ~/Desktop/SentimentAnalysis/trend_summary.csv
+```
+
 ## Visualization
 
  - Connect MongoDB or Hive to Power BI / Tableau.

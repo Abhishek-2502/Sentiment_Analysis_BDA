@@ -7,19 +7,25 @@ import org.apache.spark.ml.Pipeline
 object SentimentAnalysis {
   def main(args: Array[String]): Unit = {
 
-    // 0. Initialize Spark Session
+    // 0️. Initialize Spark Session
     val spark = SparkSession.builder()
       .appName("SentimentAnalysis")
       .config("spark.sql.warehouse.dir", "/user/hive/warehouse")
       .config("hive.metastore.uris", "thrift://localhost:9083")
-      .config("spark.mongodb.output.uri", "mongodb://127.0.0.1:27017/sentimentdb.results")
+      .config("spark.mongodb.output.uri", "mongodb://127.0.0.1:27017/sentimentdb") // base URI
       .enableHiveSupport()
       .getOrCreate()
 
     import spark.implicits._
 
     // 1️. Load from Hive
-    val df = spark.sql("SELECT brand, primaryCategories, reviews_rating, reviews_text, reviews_doRecommend FROM sentimentdb.reviews WHERE reviews_text IS NOT NULL")
+    val df = spark.sql(
+      """
+        SELECT brand, primaryCategories, reviews_rating, reviews_text, reviews_doRecommend
+        FROM sentimentdb.reviews
+        WHERE reviews_text IS NOT NULL
+      """
+    )
 
     // 2️. Add label (positive if rating >= 3)
     val labeled = df.withColumn("label", when($"reviews_rating" >= 3, 1).otherwise(0))
@@ -39,15 +45,16 @@ object SentimentAnalysis {
     val predictions = model.transform(labeled)
       .select("brand", "primaryCategories", "reviews_text", "reviews_rating", "reviews_doRecommend", "prediction")
 
-    predictions.createOrReplaceTempView("sentiment_results")
-
-    // 6️. Write detailed results to MongoDB
+    // 6️. Write detailed results to MongoDB (`results` collection)
     predictions.write
       .format("mongo")
+      .option("uri", "mongodb://127.0.0.1:27017/sentimentdb.results")
       .mode("overwrite")
       .save()
 
     // 7️. Aggregate trends per category and brand
+    predictions.createOrReplaceTempView("sentiment_results")
+
     val trendSummary = spark.sql(
       """
         SELECT
@@ -61,11 +68,17 @@ object SentimentAnalysis {
         FROM sentiment_results
         GROUP BY primaryCategories, brand
         ORDER BY positive_percentage DESC
-      """)
+      """
+    )
 
-    trendSummary.write.mode("overwrite").saveAsTable("sentimentdb.trend_summary")
+    // 8️. Write trend summary to MongoDB (`trend_summary` collection)
+    trendSummary.write
+      .format("mongo")
+      .option("uri", "mongodb://127.0.0.1:27017/sentimentdb.trend_summary")
+      .mode("overwrite")
+      .save()
 
-    // 8. Stop Spark session
+    // 9️. Stop Spark session
     spark.stop()
   }
 }
