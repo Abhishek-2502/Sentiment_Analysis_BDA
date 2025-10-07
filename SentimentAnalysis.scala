@@ -7,7 +7,7 @@ import org.apache.spark.ml.Pipeline
 object SentimentAnalysis {
   def main(args: Array[String]): Unit = {
 
-    // 0. Initialize Spark
+    // 0. Initialize Spark Session
     val spark = SparkSession.builder()
       .appName("SentimentAnalysis")
       .config("spark.sql.warehouse.dir", "/user/hive/warehouse")
@@ -65,7 +65,7 @@ object SentimentAnalysis {
 
     trendSummary.write.mode("overwrite").saveAsTable("sentimentdb.trend_summary")
 
-    // 8. Stop spark
+    // 8. Stop Spark session
     spark.stop()
   }
 }

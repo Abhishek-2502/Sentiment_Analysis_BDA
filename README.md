@@ -195,33 +195,43 @@ docker run -d \
 
 
 ## SPARK (Sentiment + Trend Analysis)
-### 1. Install Scala:
-```
-sudo apt install scala
-```
-### 2. Check Spark Path:
+
+You can either use SentimentAnalysis.scala or SentimentAnalysis.java. 
+
+### 1. Check Spark Path:
 ```
 echo $SPARK_HOME
 ```
 
-### 3. Create SentimentAnalysis.scala and paste code from SentimentAnalysis.scala.
+### 2. Install Scala if using SentimentAnalysis.scala:
+```
+sudo apt install scala
+```
+
+### 3. Create SentimentAnalysis.scala or SentimentAnalysis.java and paste code from respective code files in the repo.
+
 
 ### 4. Make classes directory:
 ```
 mkdir -p classes
 ```
 
-### 5. Compile Spark Job:
-
+### 5. Compile Spark Job (For Scala):
 ```
 scalac -classpath "$(hadoop classpath):/home/talentum/spark/jars/*" -d classes SentimentAnalysis.scala
 ```
 
+### 5. Compile Spark Job (For Java):
+```
+javac -cp "$(hadoop classpath):/home/talentum/spark/jars/*" -d classes SentimentAnalysis.java
+```
+
+### 6. Create JAR
 ```
 jar -cvf SentimentAnalysis.jar -C classes/ .
 ```
 
-### 6. Run Spark Job:
+### 7. Run Spark Job:
 ```
 spark-submit \
   --class SentimentAnalysis \
