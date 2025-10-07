@@ -92,7 +92,9 @@ SentimentAnalysis/
 ```
 
 ## HDFS (CSV) 
-### Upload product review CSVs to HDFS.
+### 1. Start Hadoop and Hive.
+
+### 2. Upload product review CSVs to HDFS:
 ```
 hdfs dfs -mkdir /SentimentAnalysis
 hdfs dfs -mkdir /SentimentAnalysis/Input
@@ -102,14 +104,16 @@ hdfs dfs -mkdir /SentimentAnalysis/Input
 hdfs dfs -put /home/talentum/Desktop/SentimentAnalysis/amazon_product_reviews.csv /SentimentAnalysis/Input
 ```
 
+![alt_text](images/hadoop_dashboard.png)
 
 
 ## HIVE (SentimentDB.Reviews)
+### 1. Get into Hive:
 ```
 hive
 ```
 
-### Create sentimentdb.reviews as an external table pointing to HDFS CSVs.
+### 2. Create sentimentdb.reviews as an external table pointing to HDFS CSVs:
 ```
 CREATE DATABASE sentimentdb;
 USE sentimentdb;
@@ -157,26 +161,26 @@ LOCATION '/SentimentAnalysis/Input'
 TBLPROPERTIES("skip.header.line.count"="1");
 ```
 
-### Query and explore raw review data.
+### 3. Query and explore raw review data:
 ```
 SELECT name, brand, reviews_rating, reviews_text 
 FROM sentimentdb.reviews 
 LIMIT 10;
 ```
-
+![alt_text](images/query1.png)
 
 
 ## DOCKER
-### Install Docker
+### 1. Install Docker:
 ```
 sudo apt install docker.io -y
 ```
 
-### Give Permission
+### 2. Give Permission:
 ```
 sudo usermod -aG docker $USER && newgrp docker
 ```
-### Pull and Run MongoDB
+### 3. Pull and Run MongoDB:
 ```
 docker pull mongo:4.4
 ```
@@ -191,23 +195,23 @@ docker run -d \
 
 
 ## SPARK (Sentiment + Trend Analysis)
-### Install Scala
+### 1. Install Scala:
 ```
 sudo apt install scala
 ```
-### Check Spark Path
+### 2. Check Spark Path:
 ```
 echo $SPARK_HOME
 ```
 
-### Create SentimentAnalysis.scala and paste code from SentimentAnalysis.scala
+### 3. Create SentimentAnalysis.scala and paste code from SentimentAnalysis.scala.
 
-### Make classes directory
+### 4. Make classes directory:
 ```
 mkdir -p classes
 ```
 
-### Compile Spark Job
+### 5. Compile Spark Job:
 
 ```
 scalac -classpath "$(hadoop classpath):/home/talentum/spark/jars/*" -d classes SentimentAnalysis.scala
@@ -217,7 +221,7 @@ scalac -classpath "$(hadoop classpath):/home/talentum/spark/jars/*" -d classes S
 jar -cvf SentimentAnalysis.jar -C classes/ .
 ```
 
-### Run Spark Job
+### 6. Run Spark Job:
 ```
 spark-submit \
   --class SentimentAnalysis \
@@ -231,13 +235,23 @@ spark-submit \
 
 ## Analyze Market Trends (Hive)
 
-### View Sentiment Summary
+### 1. Describe Trend Table:
+```
+desc trend_summary;
+```
+![alt_text](images/query2.png)
+
  - Aggregate metrics: positive_percentage, recommend_percentage, total_reviews. 
+
+### 2. View Sentiment Summary:
+
 ```
 SELECT * FROM sentimentdb.trend_summary LIMIT 10;
 ```
 
-### Identify Best Categories
+![alt_text](images/query3.png)
+
+### 3. Identify Best Categories:
 ```
 SELECT category, AVG(positive_percentage) AS avg_positive
 FROM sentimentdb.trend_summary
@@ -245,15 +259,18 @@ GROUP BY category
 ORDER BY avg_positive DESC;
 ```
 
-### Predict Consumer Behavior
+![alt_text](images/query4.png)
+
+### 4. Predict Consumer Behavior:
 ```
 SELECT brand, recommend_percentage, positive_percentage
 FROM sentimentdb.trend_summary
 ORDER BY recommend_percentage DESC;
 ```
+![alt_text](images/query5.png)
 
 ## Explore in MongoDB (Storage for dashboard/trend visualization)
-### Check predictions stored for dashboards:
+### Connect to mongo running in container:
 ```
 docker exec -it container_id bash
 ```
@@ -261,7 +278,7 @@ docker exec -it container_id bash
 mongo
 use sentimentdb
 ```
-
+### 2. Check predictions stored for dashboards:
 ```
 db.results.find().limit(5).pretty()
 ```
