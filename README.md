@@ -82,13 +82,14 @@ https://www.kaggle.com/datasets/datafiniti/consumer-reviews-of-amazon-products?r
 ```
 
 ## Directory Structure
-
+```plaintext
 SentimentAnalysis/
 ├── amazon_product_reviews.csv
 ├── SentimentAnalysis.scala
 ├── SentimentAnalysis.jar     # Auto Generated in further steps
 ├── classes/                  
 └── README.md
+```
 
 ## HDFS (CSV) 
 ### Upload product review CSVs to HDFS.
@@ -271,3 +272,9 @@ db.results.find().limit(5).pretty()
  - Connect MongoDB or Hive to Power BI / Tableau.
 
  - Track market trends, sentiment, and customer recommendation patterns.
+
+## Author
+
+ - Abhishek Rajput
+ - Arnav Jain
+ - Aayusha Bhatia
