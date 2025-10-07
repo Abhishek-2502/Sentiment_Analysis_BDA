@@ -41,40 +41,40 @@
 * Aggregated trends per brand/category are stored in Hive (`trend_summary`) and MongoDB (`results`).
 * Dashboards can visualize market trends and customer behavior patterns.
 
-        +---------------------+
-        | Product Review CSVs |
-        +---------------------+
-                    |
-                    v
-        +---------------------+
-        |     HDFS Storage    |
-        |  (/Sentiment/Input) |
-        +---------------------+
-                    |
-                    v
-        +---------------------+
-        |        Hive         |
-        |  (reviews table)    |
-        +---------------------+
-                    |
-                    v
-        +---------------------+
-        |   Apache Spark ML   |
-        | (Tokenize + TF-IDF  |
-        | + Logistic Model)   |
-        +---------------------+
-                    |
-                    v
-        +---------------------+
-        |     MongoDB Atlas   |
-        | (Predictions Store) |
-        +---------------------+
-                    |
-                    v
-        +---------------------+
-        | Power BI / Tableau  |
-        | (Market Trend Viz)  |
-        +---------------------+
+                                          +---------------------+
+                                          | Product Review CSVs |
+                                          +---------------------+
+                                                      |
+                                                      v
+                                          +---------------------+
+                                          |     HDFS Storage    |
+                                          |  (/Sentiment/Input) |
+                                          +---------------------+
+                                                      |
+                                                      v
+                                          +---------------------+
+                                          |        Hive         |
+                                          |  (reviews table)    |
+                                          +---------------------+
+                                                      |
+                                                      v
+                                          +---------------------+
+                                          |   Apache Spark ML   |
+                                          | (Tokenize + TF-IDF  |
+                                          | + Logistic Model)   |
+                                          +---------------------+
+                                                      |
+                                                      v
+                                          +---------------------+
+                                          |        MongoDB      |
+                                          | (Predictions Store) |
+                                          +---------------------+
+                                                      |
+                                                      v
+                                          +---------------------+
+                                          | Power BI / Tableau  |
+                                          | (Market Trend Viz)  |
+                                          +---------------------+
 
 ## Dataset Link
 ```
