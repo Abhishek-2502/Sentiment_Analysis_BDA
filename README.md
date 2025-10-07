@@ -239,7 +239,7 @@ spark-submit \
   --packages org.mongodb.spark:mongo-spark-connector_2.11:2.4.3 \
   SentimentAnalysis.jar
 ```
-
+![alt_text](images/spark_job.png)
 
 
 
