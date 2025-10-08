@@ -44,33 +44,33 @@
                                           +---------------------+
                                           | Product Review CSVs |
                                           +---------------------+
-                                                      |
-                                                      v
+                                                    |
+                                                    v
                                           +---------------------+
                                           |     HDFS Storage    |
                                           |  (/Sentiment/Input) |
                                           +---------------------+
-                                                      |
-                                                      v
+                                                    |
+                                                    v
                                           +---------------------+
                                           |        Hive         |
                                           |  (reviews table)    |
                                           +---------------------+
-                                                      |
-                                                      v
+                                                    |
+                                                    v
                                           +---------------------+
                                           |   Apache Spark ML   |
                                           | (Tokenize + TF-IDF  |
                                           | + Logistic Model)   |
                                           +---------------------+
-                                                      |
-                                                      v
+                                                    |
+                                                    v
                                           +---------------------+
                                           |        MongoDB      |
                                           | (Predictions Store) |
                                           +---------------------+
-                                                      |
-                                                      v
+                                                    |
+                                                    v
                                           +---------------------+
                                           | Power BI / Tableau  |
                                           | (Market Trend Viz)  |
@@ -80,6 +80,36 @@
 ```
 https://www.kaggle.com/datasets/datafiniti/consumer-reviews-of-amazon-products?resource=download
 ```
+`Number of Rows:` 28333
+
+
+| **Column Name**       | **Data Type** | **Description**                                  |
+| --------------------- | ------------- | ------------------------------------------------ |
+| `id`                  | STRING        | Unique identifier for the product                |
+| `dateAdded`           | STRING        | Date when the product was first added            |
+| `dateUpdated`         | STRING        | Date when the product details were last updated  |
+| `name`                | STRING        | Name of the product                              |
+| `asins`               | STRING        | Amazon Standard Identification Number(s)         |
+| `brand`               | STRING        | Brand name of the product                        |
+| `categories`          | STRING        | List of product categories                       |
+| `primaryCategories`   | STRING        | Primary category of the product                  |
+| `imageURLs`           | STRING        | URLs of product images                           |
+| `keys`                | STRING        | Keywords associated with the product             |
+| `manufacturer`        | STRING        | Manufacturer of the product                      |
+| `manufacturerNumber`  | STRING        | Manufacturer’s part or model number              |
+| `reviews_date`        | STRING        | Date of the review                               |
+| `reviews_dateSeen`    | STRING        | Date when the review was seen or scraped         |
+| `reviews_didPurchase` | STRING        | Indicates if the reviewer purchased the product  |
+| `reviews_doRecommend` | STRING        | Indicates if the reviewer recommends the product |
+| `reviews_id`          | STRING        | Unique identifier for the review                 |
+| `reviews_numHelpful`  | STRING        | Number of users who found the review helpful     |
+| `reviews_rating`      | STRING        | Star rating given in the review                  |
+| `reviews_sourceURLs`  | STRING        | Source URL(s) of the review                      |
+| `reviews_text`        | STRING        | Text content of the review                       |
+| `reviews_title`       | STRING        | Title or headline of the review                  |
+| `reviews_username`    | STRING        | Username of the reviewer                         |
+| `sourceURLs`          | STRING        | URLs where the product information was obtained  |
+
 
 ## Directory Structure
 ```plaintext
