@@ -115,7 +115,7 @@ https://www.kaggle.com/datasets/datafiniti/consumer-reviews-of-amazon-products?r
 ```plaintext
 SentimentAnalysis/
 ├── amazon_product_reviews.csv
-├── SentimentAnalysis.scala
+├── SentimentAnalysis.scala/java
 ├── SentimentAnalysis.jar     # Auto Generated in further steps
 ├── classes/                  
 └── README.md
